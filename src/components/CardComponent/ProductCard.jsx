@@ -61,7 +61,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <img src={img} alt={img} />
+                        <img src={img} alt={img} style={{ width: '600px', height: '600px', objectFit: 'contain' }} />
                     </div>
                 </Modal.Body>
             </Modal>
