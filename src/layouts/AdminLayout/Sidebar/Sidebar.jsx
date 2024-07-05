@@ -97,7 +97,7 @@ function Sidebar({ setToggleButton }) {
             {!toggle.action && (
               <a href="/admin">
                 <img
-                  src="/src/layouts/AdminLayout/Sidebar/dfreelogo.jpg"
+                  src="../dfreelogo.jpg"
                   className={cx("logo")}
                   alt="logo"
                 ></img>
