@@ -332,7 +332,10 @@ const OnBorrowerSlip = () => {
       />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+      record[dataIndex[0]][dataIndex[1]]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -362,11 +365,11 @@ const OnBorrowerSlip = () => {
     },
 
     {
-      title: "Tên bạn đọc",
-      dataIndex: "name",
+      title: "Tên người dùng",
+      dataIndex: ['userDetails', 'name'],
       key: "name",
       width: "20%",
-      ...getColumnSearchProps("name"),
+      ...getColumnSearchProps(['userDetails', 'name']),
       render: (_, record) => {
         return (
           <span onClick={() => handleViewDetail(record._id)}>
@@ -376,12 +379,12 @@ const OnBorrowerSlip = () => {
       },
     },
     {
-      title: "SĐT",
-      dataIndex: "phoneNumber",
+      title: "SĐT người dùng",
+      dataIndex: ['userDetails', 'phoneNumber'],
       key: "phoneNumber",
-      ...getColumnSearchProps("phoneNumber"),
+      ...getColumnSearchProps(['userDetails', 'phoneNumber']),
       render: (_, record) => {
-        return <span>{record.shippingAddress?.phoneNumber || "N/A"}</span>;
+        return <span>{record.userDetails?.phoneNumber || "N/A"}</span>;
       },
     },
     {

@@ -50,8 +50,8 @@ const userRoutes = [
 const adminRoutes = [
     //{ path: routesConfig.adminHome, component: BookList, title: 'Quản lý sách' },
     { path: routesConfig.bookListAdmin, component: BookList, title: 'Quản lý sách' },
-    { path: routesConfig.onSlipAdmin, component: OnBorrowerSlip, title: 'Quản lý phiếu mượn sách On' },
-    { path: routesConfig.offSlipAdmin, component: OffBorrowerSlip, title: 'Quản lý phiếu mượn sách Off' },
+    { path: routesConfig.onSlipAdmin, component: OnBorrowerSlip, title: 'Quản lý phiếu mượn sách online (qua web)' },
+    { path: routesConfig.offSlipAdmin, component: OffBorrowerSlip, title: 'Quản lý phiếu mượn sách offline (trực tiếp)' },
     { path: routesConfig.borrowerListAdmin, component: BorrowerList, title: 'Quản lý tài khoản bạn đọc' },
     { path: routesConfig.productsAdmin, component: Products, title: 'Sản phẩm' },
     { path: routesConfig.ordersAdmin, component: Orders, title: 'Đơn đặt hàng' },

@@ -272,7 +272,10 @@ const Orders = () => {
       <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+      record[dataIndex[0]][dataIndex[1]]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -300,6 +303,9 @@ const Orders = () => {
     },
     {
       title: "Tên người dùng",
+      dataIndex: ['userDetails', 'name'],
+      key: 'name',
+      ...getColumnSearchProps(['userDetails', 'name']),
       render: (_, record) => {
         return (
           <span onClick={() => handleViewDetail(record._id)}>
@@ -310,9 +316,9 @@ const Orders = () => {
     },
     {
       title: "SĐT người dùng",
-      dataIndex: record.userDetails?.phoneNumber,
+      dataIndex: ['userDetails', 'phoneNumber'],
       key: "phoneNumber",
-      ...getColumnSearchProps(record.userDetails?.phoneNumber),
+      ...getColumnSearchProps(['userDetails', 'phoneNumber']),
       render: (_, record) => {
         return record.userDetails?.phoneNumber || "N/A";
       },

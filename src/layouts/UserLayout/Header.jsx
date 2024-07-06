@@ -11,7 +11,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 function Header() {
-  const { token, user, handleLoggedOut } = useContext(AuthContext)
+  const { token, handleLoggedOut } = useContext(AuthContext)
   const books = useSelector((state) => state.borrowerCard.books)
   const products = useSelector((state) => state.cart.products)
 
