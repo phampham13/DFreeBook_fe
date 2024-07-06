@@ -62,7 +62,7 @@ export const BookDetail = () => {
       }
     } else {
       navigateTo("/login");
-      toast.warn("Đăng nhập trước khi thêm vào giỏ hàng!!");
+      toast.warn("Đăng nhập để thêm sách vào thẻ đọc!!");
     }
   };
 

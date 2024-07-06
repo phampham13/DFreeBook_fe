@@ -97,7 +97,7 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         localStorage.removeItem("refresh_token");
-
+        dispatch(resetUser())
         setToken(null);
         setUser(null);
     };
