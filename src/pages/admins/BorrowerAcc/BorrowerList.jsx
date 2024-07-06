@@ -250,7 +250,7 @@ const BorrowerList = () => {
       title: "SĐT",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
-      ...getColumnSearchProps("quantity"),
+      ...getColumnSearchProps("phoneNumber"),
 
       sortDirections: ["descend", "ascend"],
     },

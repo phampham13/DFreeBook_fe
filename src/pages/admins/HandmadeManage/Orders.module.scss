@@ -4,7 +4,15 @@
   padding: 0;
 
   .wrap {
-    padding: 30px 20px;
+    padding: 10px 20px;
+
+    .topBar {
+      text-align: right;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 30px;
+    }
   }
 
   .editbtn {

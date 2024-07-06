@@ -12,6 +12,7 @@ import ModalProduct from "./ModalHandmade";
 import ModalFormProduct from "../../../components/ModalUpdateCreateProduct";
 import { toast } from "react-toastify";
 import Loading from "../../../components/LoadingComponent/Loading";
+import { convertPrice } from "../../../utils/utils";
 const cx = classNames.bind(styles);
 
 const Products = () => {
@@ -26,7 +27,7 @@ const Products = () => {
   const [request, setRequest] = useState({
     limit: 40,
     page: 0,
-    sort: "price",
+    sort: "updateAt",
   });
   const getAllProduct = async () => {
     setIsLoad(true);
@@ -279,7 +280,29 @@ const Products = () => {
       width: "20%",
       sorter: (a, b) => a.price - b.price,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("price"),
+      filters: [
+        { text: "< 20000", value: "<20000" },
+        { text: "20000 - 50000", value: "20000-50000" },
+        { text: "> 50000", value: ">50000" },
+      ],
+      onFilter: (value, record) => {
+        const price = record.price;
+        if (value === "<20000") {
+          return price < 20000;
+        } else if (value === "20000-50000") {
+          return price >= 20000 && price <= 50000;
+        } else if (value === ">50000") {
+          return price > 50000;
+        }
+        return true; // Không filter nếu không có giá trị filter nào được chọn
+      },
+      render: (_, record) => {
+        return (
+          <>
+            {convertPrice(record.price)}
+          </>
+        );
+      },
     },
     {
       title: "Ảnh",

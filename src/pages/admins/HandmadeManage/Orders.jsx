@@ -299,7 +299,7 @@ const Orders = () => {
       key: "stt",
     },
     {
-      title: "Tên người nhận",
+      title: "Tên người dùng",
       render: (_, record) => {
         return (
           <span onClick={() => handleViewDetail(record._id)}>
@@ -309,10 +309,10 @@ const Orders = () => {
       },
     },
     {
-      title: "SĐT",
-      dataIndex: "phoneNumber",
+      title: "SĐT người dùng",
+      dataIndex: record.userDetails?.phoneNumber,
       key: "phoneNumber",
-      ...getColumnSearchProps("phoneNumber"),
+      ...getColumnSearchProps(record.userDetails?.phoneNumber),
       render: (_, record) => {
         return record.userDetails?.phoneNumber || "N/A";
       },

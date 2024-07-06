@@ -362,9 +362,12 @@ const BookList = () => {
     setReload(!reload);
     selectedRowKeys.length = 0;
 
-    if (res) {
+    if (res.status === "OK") {
       toast.success("Xóa thành công");
+    } else {
+      toast.error(res.message)
     }
+    setShowDeleteManyModal(false)
   };
   return (
     <>

@@ -159,7 +159,7 @@ const OffBorrowerSlip = () => {
   const handleDeleteAccept = () => {
     DeleteBr(token, IdDelete)
       .then((res) => {
-        if (res.status != "OK") {
+        if (res.status !== "OK") {
           toast.error(res.message);
         }
         toast.success("Xóa thẻ mượn thành công công");
@@ -182,11 +182,13 @@ const OffBorrowerSlip = () => {
 
     const res = await DeleteManyBr(token, ids);
     setReload(!reload);
-    if (res) {
+    if (res.status === "OK") {
       toast.success("Xóa thành công");
-      selectedRowKeys.length = 0;
-      setShowDeleteModalMany(false);
+    } else {
+      toast.error(res.message)
     }
+    selectedRowKeys.length = 0;
+    setShowDeleteModalMany(false);
   };
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -349,7 +351,6 @@ const OffBorrowerSlip = () => {
       width: "20%",
       sorter: (a, b) => a.totalAmount - b.totalAmount,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("totalAmount"),
     },
     {
       title: "Hạn trả",
@@ -366,7 +367,7 @@ const OffBorrowerSlip = () => {
     {
       title: "Ngày mượn",
       dataIndex: "createdAt",
-      ...getColumnSearchProps("createdAt"),
+      //...getColumnSearchProps("createdAt"),
       render: (_, record) => {
         return (
           <>
@@ -378,17 +379,32 @@ const OffBorrowerSlip = () => {
     {
       title: "Trạng thái",
       dataIndex: "state",
-
+      filters: [
+        { text: "Đang mượn", value: "Đang mượn" },
+        { text: "Đã trả", value: "Đã trả" },
+        { text: "Quá hạn", value: "Quá hạn" },
+      ],
+      onFilter: (value, record) => {
+        const state = record.state;
+        if (value === "Đang mượn") {
+          return state === 1;
+        } else if (value === "Đã trả") {
+          return state === 2;
+        } else if (value === "Quá hạn") {
+          return state === 3;
+        }
+        return true; // Không filter nếu không có giá trị filter nào được chọn
+      },
       render: (_, record) => {
         return (
           <>
             {record.state === 1 ? (
               <div>
                 {" "}
-                <Tag color="orange">Đang mượn</Tag>
+                <Tag color="green">Đang mượn</Tag>
               </div>
             ) : record.state === 2 ? (
-              <Tag color="green">Đã trả</Tag>
+              <Tag color="blue">Đã trả</Tag>
             ) : (
               <Tag color="red">Quá hạn</Tag>
             )}
