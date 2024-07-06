@@ -50,7 +50,7 @@ function App() {
 
         {/* privateRoutes */}
         {/* {user && user.role === "ADMIN" ? // Kiểm tra có phải là admin hay không */}
-        {role === 'admin' &&
+        {
           adminRoutes.map((route, index) => {
             // Check if there is a token and the role is "admin"
             //if (!tokenLocal || !role || role !== "admin") {
