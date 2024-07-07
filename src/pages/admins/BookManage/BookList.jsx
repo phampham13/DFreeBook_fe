@@ -331,8 +331,9 @@ const BookList = () => {
     setShowModalUp(false);
     setAddModal(false);
 
-    getAll();
-    setReload(!reload);
+    setTimeout(() => {
+      setReload(!reload);
+    }, 400);
   };
   const handleDelete = () => {
     ApiBOOK.DeleteBook(IdDelete, token)
