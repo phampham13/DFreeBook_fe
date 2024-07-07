@@ -213,14 +213,20 @@ const OnBorrowerSlip = () => {
   };
   const handleDeleteMany = async () => {
     const ids = [...selectedRowKeys];
+    const body = {
+      ids: ids,
+    };
 
-    const res = await DeleteManySlipOn(token, ids);
-    setReload(!reload);
-    if (res) {
+    const res = await DeleteManySlipOn(token, body);
+
+    if (res.status === "OK") {
       toast.success("Xóa thành công");
       selectedRowKeys.length = 0;
-      setShowDeleteModalMany(false);
+      setReload(!reload);
+    } else {
+      toast.error(res.message)
     }
+    setShowDeleteModalMany(false);
   };
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
