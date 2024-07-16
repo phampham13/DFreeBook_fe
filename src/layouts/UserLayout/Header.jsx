@@ -20,7 +20,7 @@ function Header() {
       <div className={cx("box")}>
         <div className={cx("logo")}>
           <a href="/">
-            <img src="src/layouts/UserLayout/dfreelogo.png" alt="logo" />
+            <img src="../dfreelogo.png" alt="logo" />
           </a>
         </div>
         <div className={cx("category")}>
