@@ -151,12 +151,7 @@ const BookCategory = () => {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
-  const handleViewDetail = async (id) => {
-    const res = await ApiProduct.getDetailProduct(id);
-    setProduct(res.data);
 
-    setShowModal(true);
-  };
   const handleCloseModal = async () => {
     setAddModal(false);
     setShowModal(false);
@@ -177,10 +172,10 @@ const BookCategory = () => {
   };
   const handleDeleteAccept = async () => {
     await cateAPI
-      .DeleteCates(IdDelete, token)
+      .DeleteCate(IdDelete, token)
       .then((res) => {
         if (res.status === "OK") {
-          toast.success("Xóa sản phẩm công");
+          toast.success("Xóa thể loại sách công");
           setIdDelete(null);
           setShowDeleteModal(false);
           setReload(!reload);
@@ -191,7 +186,7 @@ const BookCategory = () => {
         }
       })
       .catch((error) => {
-        toast.error("Xóa sản phẩm thất bại");
+        toast.error("Xóa thể loại sách thất bại");
       });
   };
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
