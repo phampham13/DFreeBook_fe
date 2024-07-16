@@ -46,7 +46,7 @@ const HandmadeItems = () => {
                 <img src='../tiemhand.png' alt="tiem hand"></img>
             </div>
             <div className={cx("itemList")}>
-                {products.map((item) => (
+                {products && products.map((item) => (
                     <ProductCard product={item} key={item._id} onAddToCart={handleAddToCart} />
                 ))}
             </div>
