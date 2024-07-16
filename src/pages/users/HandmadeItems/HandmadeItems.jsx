@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { apiAddToCart } from '../../../services/CartService';
 import { toast } from 'react-toastify';
 import { addProductToCart } from '../../../redux/slides/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const HandmadeItems = () => {
@@ -15,6 +16,7 @@ const HandmadeItems = () => {
     const [products, setProducts] = useState([])
     const user = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAllProduct()
@@ -26,19 +28,25 @@ const HandmadeItems = () => {
     }
 
     const handleAddToCart = async (product, amount) => {
-        const res = await apiAddToCart(token, user.id, {
-            productId: product._id,
-            quantity: amount
-        })
-        if (res.status === "OK") {
-            toast.success("Thêm sản phẩm vào giỏ thành công")
-            dispatch(addProductToCart({
-                product: product,
+        if (token && user && user.role === 'user') {
+            const res = await apiAddToCart(token, user.id, {
+                productId: product._id,
                 quantity: amount
-            }))
+            })
+            if (res.status === "OK") {
+                toast.success("Thêm sản phẩm vào giỏ thành công")
+                dispatch(addProductToCart({
+                    product: product,
+                    quantity: amount
+                }))
+            } else {
+                toast.error(res.message)
+            }
         } else {
-            toast.error(res.message)
+            navigate('/login')
+            toast.warning("Đăng nhập để thêm sản phẩm vào giỏ hàng")
         }
+
     }
     return (
         <div className={cx('wrapper')}>
