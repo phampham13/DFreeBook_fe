@@ -12,7 +12,7 @@ const Footer = () => {
         <div className={cx("logo")}>
           <a href="/">
             <img
-              src="../dfreelogo2.png"
+              src="src/layouts/UserLayout/dfreelogo2.png"
               alt=""
               style={{ height: "250px", width: "250px" }}
             />

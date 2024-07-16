@@ -3,12 +3,13 @@ import styles from './Header.module.scss';
 import Avatar from '@mui/material/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const cx = classNames.bind(styles);
 
 function Header({ title }) {
-    const user = useSelector((state) => state.user)
+    const { user } = useContext(AuthContext);
     return (
         <div className={cx('wrapHeader')}>
             <h3>{title}</h3>
@@ -18,10 +19,10 @@ function Header({ title }) {
                         <path></path>
                     </svg>
                     <FontAwesomeIcon style={{ fontSize: '28px' }} icon={faCircleUser} />
-                    <p style={{ fontSize: '14px' }} > {user.name}</p>
+                    <p>{user.name}</p>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

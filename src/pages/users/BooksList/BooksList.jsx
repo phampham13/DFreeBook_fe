@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./BooksList.module.scss";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { ApiBOOK } from "../../../services/BookService";
 import Loading from "../../../components/LoadingComponent/Loading";

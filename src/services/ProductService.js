@@ -1,12 +1,14 @@
-import { axiosJWT, req } from "../utils/httpRequest";
+import axios from "axios";
+import { createAuthHeader } from "./auth/authHeader";
+import { axiosJWT } from "../utils/httpRequest";
 
 //const token = localStorage.getItem("token");
 class ProductAPI {
   async getAllProduct(limit, page, sort) {
     let res = {};
     try {
-      res = await req.get(
-        `/products/getAll?limit=${limit}&page=${page}&sort=asc&sort=${sort}`
+      res = await axios.get(
+        `${process.env.REACT_API_URL_BACKEND}/products/getAll?limit=${limit}&page=${page}&sort=asc&sort=${sort}`
       );
       return res.data;
     } catch (error) {
@@ -17,8 +19,8 @@ class ProductAPI {
   async getDetailProduct(id) {
     let res = {};
     try {
-      res = await req.get(
-        `/products/getDetail/${id}`
+      res = await axios.get(
+        `${process.env.REACT_API_URL_BACKEND}/products/getDetail/${id}`
       );
       return res.data;
     } catch (error) {

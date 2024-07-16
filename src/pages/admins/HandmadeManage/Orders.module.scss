@@ -4,15 +4,7 @@
   padding: 0;
 
   .wrap {
-    padding: 10px 20px;
-
-    .topBar {
-      text-align: right;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 30px;
-    }
+    padding: 30px 20px;
   }
 
   .editbtn {
@@ -27,6 +19,13 @@
     cursor: pointer;
     font-size: 20px;
     margin: 5px;
+  }
+
+  .chartContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
   }
 
   .order-container {

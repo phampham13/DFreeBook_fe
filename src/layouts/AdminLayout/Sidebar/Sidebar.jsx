@@ -49,8 +49,8 @@ function Sidebar({ setToggleButton }) {
   const handleActive = (detailName) => {
     setActive((prevState) => ({
       listBook: false,
+      listCategory: false,
       listOnSlip: false,
-      listBorrower: false,
       listOffSlip: false,
       statisticSale: false,
       listOrder: false,
@@ -97,7 +97,7 @@ function Sidebar({ setToggleButton }) {
             {!toggle.action && (
               <a href="/admin">
                 <img
-                  src="../dfreelogo.jpg"
+                  src="/src/layouts/AdminLayout/Sidebar/dfreelogo.jpg"
                   className={cx("logo")}
                   alt="logo"
                 ></img>
@@ -126,7 +126,7 @@ function Sidebar({ setToggleButton }) {
               {/* Sách*/}
               <div
                 className={cx('homeMenuItem', 'itemNav', {
-                  active: active.listBook
+                  active: active.listBook || active.listCategory
                 })}
                 onClick={() => handleShowDetail('showDetailBook')}
               >
@@ -161,6 +161,15 @@ function Sidebar({ setToggleButton }) {
                   >
                     <div className={cx('menuItemTitle')}>
                       <span>Thống kê sách</span>
+                    </div>
+                  </Link>
+                  <Link
+                    to="/admin/bookCategory"
+                    className={cx('homeMenuItem', 'itemNav', 'innerWrapCollapseItem')}
+                    onClick={() => handleActive('listCategory')}
+                  >
+                    <div className={cx('menuItemTitle')}>
+                      <span>Thể loại sách</span>
                     </div>
                   </Link>
                 </div>
@@ -238,7 +247,7 @@ function Sidebar({ setToggleButton }) {
                     onClick={() => handleActive("listBorrower")}
                   >
                     <div className={cx("menuItemTitle")}>
-                      <span>Danh sách bạn đọc</span>
+                      <span>Danh sách người dùng</span>
                     </div>
                   </Link>
                 </div>

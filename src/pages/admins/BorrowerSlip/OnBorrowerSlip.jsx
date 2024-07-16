@@ -22,9 +22,6 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import moment from "moment";
 import { toast } from "react-toastify";
 import ModalCreateUpdateBorrowerSlip from "../../../components/ModalCreateBr";
-import ModalDetailBr from "../../../components/ModalDetailBr";
-import { getDetailBr } from "../../../services/OffBorrowerSlipService";
-import { UpdateBr } from "../../../services/OffBorrowerSlipService";
 import {
   DeleteManySlipOn,
   DeleteSlipOn,
@@ -35,10 +32,12 @@ import {
 import { getDetailsUser } from "../../../services/UserService";
 import ModalDetail from "../../../components/ModalBrSlipDetail/ModalDetail";
 import Loading from "../../../components/LoadingComponent/Loading";
+import PieChartComponent from "../../../components/PieChart/PieChart";
 const cx = classNames.bind(styles);
 const { RangePicker } = DatePicker;
 const OnBorrowerSlip = () => {
   const [data, setData] = useState([]);
+  const [chart, setChart] = useState([])
 
   const [defaultState, setdefaultState] = useState(0);
   const [lateFee, setLateFee] = useState("");
@@ -49,6 +48,7 @@ const OnBorrowerSlip = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [showInput, setshowInput] = useState(false);
+  const [paidLateFee, setPaidLateFee] = useState(false);
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [IsLoad, setIsLoad] = useState(false);
@@ -84,6 +84,7 @@ const OnBorrowerSlip = () => {
 
     const res = await GetAllSlipOn(token);
     const orders = res.data;
+    setChart(res.stat)
     const ordersWithUserDetails = await Promise.all(
       orders.map(async (order) => {
         const userDetails = await getDetailsUser(order.userId, token);
@@ -112,7 +113,6 @@ const OnBorrowerSlip = () => {
     const fetchData = async () => {
       await getAllData();
     };
-
     fetchData();
   }, [selectedRow, reload]);
   /*const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -179,6 +179,9 @@ const OnBorrowerSlip = () => {
     setDatasrc(src);
     setdefaultState(src.state);
     setshowModalUpdate(true);
+    if (src.state === 2 && src.lateFee > 0) {
+      setshowInput(true)
+    }
   };
 
   const handleDelete = async (id) => {
@@ -205,11 +208,11 @@ const OnBorrowerSlip = () => {
   const handleCloseModalDetail = () => setShowDetailModal(false);
   const onChange = (e) => {
     setdefaultState(e.target.value);
-    if (e.target.value === 2 && datasrc.state === 3) {
+    if (e.target.value === 2 && datasrc.state === 3 && showInput === false) {  //if (e.target.value === 2 && datasrc.state === 3) {
       setshowInput(true);
-    } else {
+    } /*else {
       setshowInput(false);
-    }
+    }*/
   };
   const handleDeleteMany = async () => {
     const ids = [...selectedRowKeys];
@@ -232,17 +235,11 @@ const OnBorrowerSlip = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const UpdateState = async () => {
-    let body = {};
-    if (showInput === true) {
-      body = {
-        newState: defaultState,
-        lateFee: lateFee,
-      };
-    } else {
-      body = {
-        newState: defaultState,
-      };
-    }
+    const body = {
+      newState: defaultState,
+      lateFee: lateFee,
+      paidLateFee: paidLateFee
+    };
     await UpdateSlipOn(token, datasrc._id, body).then((res) => {
       if (res) {
         if (res.status != "OK") {
@@ -394,7 +391,7 @@ const OnBorrowerSlip = () => {
       },
     },
     {
-      title: "Tổng số lượng",
+      title: "Số sách",
       dataIndex: "totalAmount",
       key: "totalAmount",
       width: "20%",
@@ -561,8 +558,17 @@ const OnBorrowerSlip = () => {
   return (
     <>
       <div className={cx("wrap")}>
+        <div className={cx("chartContainer")}>
+          <div style={{ width: 200, height: 200 }}>
+            <PieChartComponent data={chart} />
+          </div>
+          <div>
+            Tổng phiếu mượn: <strong>{data.length}</strong>
+          </div>
+        </div>
         <div className={cx("topBar")}>
-          <Flex gap="middle" align="start" vertical>
+          <Flex gap="middle" align="start">
+            <p style={{ fontSize: '0.9em', lineHeight: '30px' }}><i>Ngày mượn:</i></p>
             <Space direction="vertical" style={{ marginBottom: 16 }}>
               <RangePicker onChange={handleDateChange} />
             </Space>
@@ -586,7 +592,7 @@ const OnBorrowerSlip = () => {
 
       <Modal show={showModalUpdate} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Xác thay đổi trạng thái</Modal.Title>
+          <Modal.Title>Thay đổi trạng thái phiếu</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -603,15 +609,23 @@ const OnBorrowerSlip = () => {
                 )
               )}
             </Radio.Group>
-            {showInput == true && (
+            {showInput === true && (
               <div>
-                <label htmlFor="lateFeeInput">Phí phạt trả muộn:</label>
+                <label htmlFor="lateFeeInput" defaultValue={datasrc?.lateFee || 0}>Phí phạt trả muộn:</label>
                 <input
                   type="text"
                   id="lateFeeInput"
                   value={lateFee}
                   onChange={handleChange}
                 />
+                <Radio.Group
+                  defaultValue={paidLateFee}
+                  onChange={(e) => setPaidLateFee(e.target.value)}
+                  style={{ padding: "15px" }}
+                >
+                  <Radio key={true} value={true}>Đã nộp phí phạt</Radio>
+                  <Radio key={false} value={false}>Chưa nộp phí phạt</Radio>
+                </Radio.Group>
               </div>
             )}
           </div>

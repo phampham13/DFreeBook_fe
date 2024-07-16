@@ -11,7 +11,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 function Header() {
-  const { token, handleLoggedOut } = useContext(AuthContext)
+  const { token, user, handleLoggedOut } = useContext(AuthContext)
   const books = useSelector((state) => state.borrowerCard.books)
   const products = useSelector((state) => state.cart.products)
 
@@ -20,7 +20,7 @@ function Header() {
       <div className={cx("box")}>
         <div className={cx("logo")}>
           <a href="/">
-            <img src="../dfreelogo.png" alt="logo" />
+            <img src="src/layouts/UserLayout/dfreelogo.png" alt="logo" />
           </a>
         </div>
         <div className={cx("category")}>

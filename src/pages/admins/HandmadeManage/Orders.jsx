@@ -21,6 +21,7 @@ import { Modal } from "react-bootstrap";
 import { getDetailOrder } from "../../../services/OrderService";
 import { toast } from "react-toastify";
 import Loading from "../../../components/LoadingComponent/Loading";
+import PieChartComponent from "../../../components/PieChart/PieChart";
 const cx = classNames.bind(styles);
 
 const Orders = () => {
@@ -28,6 +29,8 @@ const Orders = () => {
 
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
+  const [chart1, setChart1] = useState([]);
+  const [chart2, setChart2] = useState([]);
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -64,6 +67,8 @@ const Orders = () => {
 
     const res = await getAllOrder(token);
     const orders = res.data;
+    setChart1(res.stat.status)
+    setChart2(res.stat.paymentMethod)
     const ordersWithUserDetails = await Promise.all(
       orders.map(async (order) => {
         const userDetails = await getDetailsUser(order.user, token);
@@ -272,10 +277,7 @@ const Orders = () => {
       <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex[0]][dataIndex[1]]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -302,10 +304,7 @@ const Orders = () => {
       key: "stt",
     },
     {
-      title: "Tên người dùng",
-      dataIndex: ['userDetails', 'name'],
-      key: 'name',
-      ...getColumnSearchProps(['userDetails', 'name']),
+      title: "Tên người nhận",
       render: (_, record) => {
         return (
           <span onClick={() => handleViewDetail(record._id)}>
@@ -315,10 +314,10 @@ const Orders = () => {
       },
     },
     {
-      title: "SĐT người dùng",
-      dataIndex: ['userDetails', 'phoneNumber'],
+      title: "SĐT",
+      dataIndex: "phoneNumber",
       key: "phoneNumber",
-      ...getColumnSearchProps(['userDetails', 'phoneNumber']),
+      ...getColumnSearchProps("phoneNumber"),
       render: (_, record) => {
         return record.userDetails?.phoneNumber || "N/A";
       },
@@ -366,6 +365,15 @@ const Orders = () => {
   return (
     <>
       <div className={cx("wrap")}>
+        <div className={cx("chartContainer")}>
+          <div style={{ width: 200, height: 200 }}>
+            <PieChartComponent data={chart1} />
+          </div>
+          {/*<div style={{ width: 200, height: 200 }}>
+            <PieChartComponent data={chart2} />
+          </div>*/}
+          <div>Tổng số đơn hàng: <strong>{data.length}</strong></div>
+        </div>
         <div className={cx("topBar")}>
           {selectedRowKeys.length >= 2 && (
             <>

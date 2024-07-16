@@ -20,12 +20,21 @@
     .wrap {
         margin: 10px 20px;
 
+        .chartContainer {
+            //padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 30px;
+            align-items: center;
+        }
+
         .topBar {
             text-align: right;
             margin-bottom: 10px;
             display: flex;
             justify-content: flex-end;
             gap: 30px;
+            justify-items: center;
 
             /*.create-btn {
                 border: 0;
